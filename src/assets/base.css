@@ -1,0 +1,58 @@
+:root {
+  --vt-c-indigo: #2c3e50;
+
+  --vt-c-divider: rgba(60, 60, 60, 0.12);
+  --vt-c-text: #2c3e50;
+
+  --blue: #A2D2FF;
+  --dark-blue: #004280;
+}
+
+:root {
+  --color-border: var(--vt-c-divider);
+  --color-text: var(--vt-c-text);
+  --color-button: var(--blue);
+  --color-text-button: var(--dark-blue);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  list-style-type: none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance:textfield;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  line-height: 1.6;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    sans-serif;
+  font-size: 16px;
+  text-decoration: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
