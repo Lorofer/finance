@@ -141,7 +141,7 @@ a {
   transition: 0.4s;
 }
 .popup-list-item:hover{
-  background-color: var(--vt-c-text);
+  background-color: var(--hover-grey);
 }
 .popup-list-item:not(:first-child){
   border-top: 1px solid var(--color-border);

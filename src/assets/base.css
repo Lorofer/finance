@@ -1,11 +1,12 @@
 :root {
   --vt-c-indigo: #2c3e50;
 
-  --vt-c-divider: rgba(60, 60, 60, 0.12);
+  --vt-c-divider: #dedede;
   --vt-c-text: #2c3e50;
 
   --blue: #A2D2FF;
   --dark-blue: #004280;
+  --hover-grey: #f3f3f3;
 }
 
 :root {

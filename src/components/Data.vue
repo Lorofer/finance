@@ -90,7 +90,7 @@ const currentList = computed(() => {
 }
 .amount-item:hover{
   cursor: pointer;
-  background-color: var(--vt-c-text);
+  background-color: var(--hover-grey);
 }
 .amount{
   position: absolute;
