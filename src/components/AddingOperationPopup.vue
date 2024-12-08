@@ -1,6 +1,6 @@
 <script setup>
-import { useDataStore } from "@/stores/dataStore.js";
-const dataStore = useDataStore();
+import { useTransactionDataStore } from "@/stores/transactionDataStore.js";
+const dataStore = useTransactionDataStore();
 import {computed, ref} from "vue";
 
 const isOpen = ref(false);
@@ -167,6 +167,7 @@ a {
   justify-content: space-between;
 }
 .buttons-container > button{
+  width: 112px;
   height: 32px;
   border: 0;
   border-radius: 8px;

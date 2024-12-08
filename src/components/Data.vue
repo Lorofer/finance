@@ -3,8 +3,8 @@ import CategoryPopUp from "@/components/CategoryPopup.vue";
 import AddingOperationPopup from "@/components/AddingOperationPopup.vue";
 import {computed, useTemplateRef} from "vue";
 
-import { useDataStore } from "@/stores/dataStore.js";
-const dataStore = useDataStore();
+import { useTransactionDataStore } from "@/stores/transactionDataStore.js";
+const dataStore = useTransactionDataStore();
 
 const categoryPopup = useTemplateRef('category-popup');
 const addingOperationPopup = useTemplateRef('adding-operation-popup');
