@@ -1,9 +1,6 @@
 <script setup>
 import Chart from "@/components/Chart.vue";
 import Data from "@/components/Data.vue";
-
-import { useDataStore } from "@/stores/dataStore.js";
-const dataStore = useDataStore();
 </script>
 
 <template>

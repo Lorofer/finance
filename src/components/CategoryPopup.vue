@@ -1,8 +1,10 @@
 <script setup>
 import {computed, ref} from "vue";
 
-import { useDataStore } from "@/stores/dataStore.js";
-const dataStore = useDataStore();
+import { useTransactionDataStore } from "@/stores/transactionDataStore.js";
+import { useDateStore } from "@/stores/dateStore.js";
+const transactionDataStore = useTransactionDataStore();
+const dateStore = useDateStore();
 
 const isOpen = ref(false);
 defineExpose({
@@ -11,19 +13,19 @@ defineExpose({
 
 let title = ref('');
 let operations = computed(() => {
-  switch (dataStore.type){
+  switch (transactionDataStore.type){
     case 'expenses':
-      return dataStore.expensesByCategory[title.value];
+      return transactionDataStore.expensesByCategory[title.value];
     default:
-      return dataStore.incomeByCategory[title.value];
+      return transactionDataStore.incomeByCategory[title.value];
   }
 })
 const currentAmount = computed(() => {
-  switch (dataStore.type){
+  switch (transactionDataStore.type){
     case 'expenses':
-      return dataStore.amountsOfExpensesByCategory[title.value];
+      return transactionDataStore.amountsOfExpensesByCategory[title.value];
     default:
-      return dataStore.amountsOfIncomeByCategory[title.value];
+      return transactionDataStore.amountsOfIncomeByCategory[title.value];
   }
 });
 
@@ -41,14 +43,14 @@ function close(){
 <div class="popup" v-if="isOpen">
   <nav class="popup-menu">
     <ul class="popup-menu-list">
-      <li :class="['popup-menu-item', {active: dataStore.period === 'week'}]">
-        <a @click="dataStore.switchPeriod('week')">За неделю</a>
+      <li :class="['popup-menu-item', {active: transactionDataStore.period === 'week'}]">
+        <a @click="transactionDataStore.switchPeriod('week')">За неделю</a>
       </li>
-      <li :class="['popup-menu-item', {active: dataStore.period === 'month'}]">
-        <a @click="dataStore.switchPeriod('month')">За месяц</a>
+      <li :class="['popup-menu-item', {active: transactionDataStore.period === 'month'}]">
+        <a @click="transactionDataStore.switchPeriod('month')">За месяц</a>
       </li>
-      <li :class="['popup-menu-item', {active: dataStore.period === 'year'}]">
-        <a @click="dataStore.switchPeriod('year')">За год</a>
+      <li :class="['popup-menu-item', {active: transactionDataStore.period === 'year'}]">
+        <a @click="transactionDataStore.switchPeriod('year')">За год</a>
       </li>
     </ul>
   </nav>
@@ -59,7 +61,7 @@ function close(){
 
   <ul class="popup-list">
     <li class="popup-list-item" v-for="operation in operations">
-      <p class="popup-list-item-data">{{operation.date}}</p>
+      <p class="popup-list-item-data">{{dateStore.dateConversion(operation.date)}}</p>
       <p class="popup-list-item-amount">{{operation.amount}}</p>
       <p class="popup-list-item-description">{{operation.description}}</p>
     </li>

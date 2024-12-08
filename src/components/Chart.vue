@@ -4,8 +4,8 @@ import {computed} from "vue";
 import 'chart.js/auto';
 import { Doughnut } from 'vue-chartjs';
 
-import { useDataStore } from "@/stores/dataStore.js";
-const dataStore = useDataStore();
+import { useTransactionDataStore } from "@/stores/transactionDataStore.js";
+const dataStore = useTransactionDataStore();
 
 const chartData = computed(() => {
   switch (dataStore.type){

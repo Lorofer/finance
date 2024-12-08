@@ -1,7 +1,7 @@
 import {computed, ref} from 'vue';
 import {defineStore} from 'pinia';
 
-export const useDataStore = defineStore('dataStore', () => {
+export const useTransactionDataStore = defineStore('transactionDataStore', () => {
   const expensesData = ref([]);
   const incomeData = ref([]);
 

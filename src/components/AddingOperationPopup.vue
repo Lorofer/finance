@@ -1,6 +1,6 @@
 <script setup>
-import { useDataStore } from "@/stores/dataStore.js";
-const dataStore = useDataStore();
+import { useTransactionDataStore } from "@/stores/transactionDataStore.js";
+const dataStore = useTransactionDataStore();
 import {computed, ref} from "vue";
 
 const isOpen = ref(false);
