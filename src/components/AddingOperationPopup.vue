@@ -167,6 +167,7 @@ a {
   justify-content: space-between;
 }
 .buttons-container > button{
+  width: 112px;
   height: 32px;
   border: 0;
   border-radius: 8px;
