@@ -3,10 +3,7 @@ import { useTransactionDataStore } from "@/stores/transactionDataStore.js";
 const dataStore = useTransactionDataStore();
 import {computed, ref} from "vue";
 
-const isOpen = ref(false);
-defineExpose({
-  open,
-})
+defineExpose({ open });
 
 const category = ref();
 const description = ref();
@@ -51,53 +48,52 @@ async function addingOperation(){
   close();
 }
 
-function open(){
-  isOpen.value = true;
+function open() {
+  document.getElementById('adding-operation-popup').showModal();
 }
-function close(){
-  isOpen.value = false;
+function handleModalClick({ currentTarget, target }) {
+  const isClickedOnBackdrop = target === currentTarget;
+
+  if (isClickedOnBackdrop) {
+    close();
+  }
+}
+function close() {
+  document.getElementById('adding-operation-popup').close();
 }
 </script>
 
 <template>
-  <div class="backdrop" v-if="isOpen" @click="close"></div>
-  <div class="popup" v-if="isOpen">
-    <nav class="popup-menu">
-      <ul class="popup-menu-list">
-        <li :class="['popup-menu-item', {active: dataStore.type === 'expenses'}]">
-          <a @click="dataStore.switchType('expenses')">Расходы</a>
-        </li>
-        <li :class="['popup-menu-item', {active: dataStore.type === 'income'}]">
-          <a @click="dataStore.switchType('income')">Доходы</a>
-        </li>
-      </ul>
-    </nav>
-    <h2 class="popup-title">
-      Добавление операции
-    </h2>
-    <form class="popup-form">
-      <input class="popup-input" v-model="category" placeholder="Категория" />
-      <input class="popup-input" type="number" v-model="amount" placeholder="Сумма" />
-      <input class="popup-input" v-model="description" placeholder="Описание" />
-    </form>
-    <div class="buttons-container">
-      <button class="popup-closing-button" @click="close">Отмена</button>
-      <button class="popup-adding-operation-button" @click="addingOperation">Сохранить</button>
+  <dialog class="popup" id="adding-operation-popup" @click="handleModalClick">
+    <div class="popup-content">
+      <nav class="popup-menu">
+        <ul class="popup-menu-list">
+          <li :class="['popup-menu-item', {active: dataStore.type === 'expenses'}]">
+            <a @click="dataStore.switchType('expenses')">Расходы</a>
+          </li>
+          <li :class="['popup-menu-item', {active: dataStore.type === 'income'}]">
+            <a @click="dataStore.switchType('income')">Доходы</a>
+          </li>
+        </ul>
+      </nav>
+      <h2 class="popup-title">
+        Добавление операции
+      </h2>
+      <form class="popup-form">
+        <input class="popup-input" v-model="category" placeholder="Категория" />
+        <input class="popup-input" type="number" v-model="amount" placeholder="Сумма" />
+        <input class="popup-input" v-model="description" placeholder="Описание" />
+      </form>
+      <div class="buttons-container">
+        <button class="popup-closing-button" @click="close">Отмена</button>
+        <button class="popup-adding-operation-button" @click="addingOperation">Сохранить</button>
+      </div>
     </div>
-  </div>
+  </dialog>
 </template>
 
 <style scoped>
-.backdrop{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  background: rgba(100, 100, 100, 0.25);
-}
-.popup{
+.popup {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -107,16 +103,23 @@ function close(){
   width: 400px;
   height: 500px;
   background-color: white;
-  padding: 32px;
   border-radius: 24px;
+  border: 0;
 }
 
-.popup-menu-list{
+.popup-content {
+  padding: 32px;
+  width: 100%;
+  height: 100%;
+}
+
+.popup-menu-list {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
-.popup-menu-item{
+
+.popup-menu-item {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,6 +127,7 @@ function close(){
   position: relative;
   padding: 0 2px;
 }
+
 .popup-menu-item.active::after {
   content: "";
   position: absolute;
@@ -133,6 +137,7 @@ function close(){
   height: 2px;
   background-color: var(--vt-c-indigo);
 }
+
 a {
   display: inline-block;
   margin: auto;
@@ -141,24 +146,26 @@ a {
   cursor: pointer;
 }
 
-.popup-title{
+.popup-title {
   margin-top: 20px;
 }
 
-.popup-form{
+.popup-form {
   margin-top: 20px;
 }
-.popup-input{
+
+.popup-input {
   width: 100%;
   height: 32px;
   font-size: 16px;
   padding: 4px;
 }
-.popup-input:not(:first-child){
+
+.popup-input:not(:first-child) {
   margin-top: 20px;
 }
 
-.buttons-container{
+.buttons-container {
   position: absolute;
   bottom: 32px;
 
@@ -166,7 +173,8 @@ a {
   display: flex;
   justify-content: space-between;
 }
-.buttons-container > button{
+
+.buttons-container > button {
   width: 112px;
   height: 32px;
   border: 0;
@@ -174,14 +182,17 @@ a {
   padding: 0 16px;
   font-size: 16px;
 }
-.buttons-container > *{
+
+.buttons-container > * {
   cursor: pointer;
 }
-.popup-closing-button{
+
+.popup-closing-button {
   background-color: var(--color-button);
   color: var(--color-text-button);
 }
-.popup-adding-operation-button{
+
+.popup-adding-operation-button {
   background-color: #f10000;
   color: white;
 }

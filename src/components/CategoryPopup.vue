@@ -7,9 +7,7 @@ const transactionDataStore = useTransactionDataStore();
 const dateStore = useDateStore();
 
 const isOpen = ref(false);
-defineExpose({
-  open,
-})
+defineExpose({ open });
 
 let title = ref('');
 let operations = computed(() => {
@@ -30,58 +28,57 @@ const currentAmount = computed(() => {
 });
 
 function open(category){
+  document.getElementById('category-popup').showModal();
   title.value = category;
-  isOpen.value = true;
+}
+function handleModalClick({ currentTarget, target }) {
+  const isClickedOnBackdrop = target === currentTarget;
+
+  if (isClickedOnBackdrop) {
+    close();
+  }
 }
 function close(){
-  isOpen.value = false;
+  document.getElementById('category-popup').close();
 }
 </script>
 
 <template>
-<div class="backdrop" v-if="isOpen" @click="close"></div>
-<div class="popup" v-if="isOpen">
-  <nav class="popup-menu">
-    <ul class="popup-menu-list">
-      <li :class="['popup-menu-item', {active: transactionDataStore.period === 'week'}]">
-        <a @click="transactionDataStore.switchPeriod('week')">За неделю</a>
-      </li>
-      <li :class="['popup-menu-item', {active: transactionDataStore.period === 'month'}]">
-        <a @click="transactionDataStore.switchPeriod('month')">За месяц</a>
-      </li>
-      <li :class="['popup-menu-item', {active: transactionDataStore.period === 'year'}]">
-        <a @click="transactionDataStore.switchPeriod('year')">За год</a>
+<dialog class="popup" id="category-popup" @click="handleModalClick">
+  <div class="popup-content">
+    <nav class="popup-menu">
+      <ul class="popup-menu-list">
+        <li :class="['popup-menu-item', {active: transactionDataStore.period === 'week'}]">
+          <a @click="transactionDataStore.switchPeriod('week')">За неделю</a>
+        </li>
+        <li :class="['popup-menu-item', {active: transactionDataStore.period === 'month'}]">
+          <a @click="transactionDataStore.switchPeriod('month')">За месяц</a>
+        </li>
+        <li :class="['popup-menu-item', {active: transactionDataStore.period === 'year'}]">
+          <a @click="transactionDataStore.switchPeriod('year')">За год</a>
+        </li>
+      </ul>
+    </nav>
+
+    <h2 class="popup-title">
+      {{ title }}: <span class="amount">{{currentAmount}}</span>
+    </h2>
+
+    <ul class="popup-list">
+      <li class="popup-list-item" v-for="operation in operations">
+        <p class="popup-list-item-data">{{dateStore.dateConversion(operation.date)}}</p>
+        <p class="popup-list-item-amount">{{operation.amount}}</p>
+        <p class="popup-list-item-description">{{operation.description}}</p>
       </li>
     </ul>
-  </nav>
 
-  <h2 class="popup-title">
-    {{ title }}: <span class="amount">{{currentAmount}}</span>
-  </h2>
-
-  <ul class="popup-list">
-    <li class="popup-list-item" v-for="operation in operations">
-      <p class="popup-list-item-data">{{dateStore.dateConversion(operation.date)}}</p>
-      <p class="popup-list-item-amount">{{operation.amount}}</p>
-      <p class="popup-list-item-description">{{operation.description}}</p>
-    </li>
-  </ul>
-
-  <button class="popup-closing-button" @click="close">Закрыть</button>
-</div>
+    <button class="popup-closing-button" @click="close">Закрыть</button>
+  </div>
+</dialog>
 </template>
 
 <style scoped>
-.backdrop{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  background: rgba(100, 100, 100, 0.25);
-}
-.popup{
+.popup {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -91,19 +88,27 @@ function close(){
   width: 400px;
   height: 500px;
   background-color: white;
-  padding: 32px;
   border-radius: 24px;
+  border: 0;
 }
-.popup > *:not(:first-child){
+
+.popup-content {
+  padding: 32px;
+  width: 100%;
+  height: 100%;
+}
+
+.popup-content > *:not(:first-child) {
   margin-top: 24px;
 }
 
-.popup-menu-list{
+.popup-menu-list {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.popup-menu-item{
+
+.popup-menu-item {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,6 +116,7 @@ function close(){
   position: relative;
   padding: 0 2px;
 }
+
 .popup-menu-item.active::after {
   content: "";
   position: absolute;
@@ -120,6 +126,7 @@ function close(){
   height: 2px;
   background-color: var(--vt-c-indigo);
 }
+
 a {
   display: inline-block;
   margin: auto;
@@ -128,34 +135,39 @@ a {
   cursor: pointer;
 }
 
-.popup-title{
+.popup-title {
   position: relative;
 }
-.amount{
+
+.amount {
   position: absolute;
   right: 0;
 }
 
-.popup-list-item{
+.popup-list-item {
   padding: 4px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   transition: 0.4s;
 }
-.popup-list-item:hover{
+
+.popup-list-item:hover {
   background-color: var(--hover-grey);
 }
-.popup-list-item:not(:first-child){
+
+.popup-list-item:not(:first-child) {
   border-top: 1px solid var(--color-border);
 }
-.popup-list-item-amount{
+
+.popup-list-item-amount {
   text-align: right;
 }
-.popup-list-item-description{
+
+.popup-list-item-description {
   grid-column: 1 / 3;
 }
 
-.popup-closing-button{
+.popup-closing-button {
   position: absolute;
   bottom: 32px;
   right: 32px;
