@@ -39,8 +39,6 @@ const currentList = computed(() => {
       return dataStore.amountsOfIncomeByCategory;
   }
 });
-
-//console.log(currentList.value)
 </script>
 
 <template>

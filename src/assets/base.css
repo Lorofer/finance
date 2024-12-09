@@ -57,3 +57,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+body:has(dialog[open]) {
+  overflow: hidden;
+}
