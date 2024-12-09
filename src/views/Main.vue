@@ -16,14 +16,16 @@ import Data from "@/components/Data.vue";
 
 <style scoped>
 main {
-  height: calc(100vh - 195px);
+  flex-grow: 1;
   display: flex;
 }
 .wrapper {
   width: 100%;
+  padding: 12px 24px;
 }
 .main-container {
   width: 100%;
+  height: 100%;
   display: flex;
   gap: 48px;
 }

@@ -20,6 +20,12 @@ footer{
   height: 80px;
   border-top: 1px solid var(--color-border);
 }
+@media (max-height: 768px) {
+  footer{
+    width: 100%;
+    height: 60px;
+  }
+}
 .wrapper{
   height: 100%;
   display: flex;
