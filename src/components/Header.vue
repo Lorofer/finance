@@ -38,14 +38,16 @@ const dataStore = useTransactionDataStore();
 </template>
 
 <style scoped>
-header {
-  height: 115px;
-}
 .header-block{
   border-bottom: 1px solid var(--color-border);
 }
 .upper-header-block{
   height: 80px;
+}
+@media (max-height: 768px) {
+  .upper-header-block {
+    height: 60px;
+  }
 }
 .lower-header-block{
   height: 35px;
