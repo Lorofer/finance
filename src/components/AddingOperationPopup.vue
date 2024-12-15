@@ -5,9 +5,12 @@ import {computed, ref} from "vue";
 
 defineExpose({ open });
 
-const category = ref();
-const description = ref();
+const today = new Date();
+
 const amount = ref();
+const category = ref();
+const date = ref(today.toISOString().slice(0, 10));
+const description = ref();
 
 const currentDataObject = computed(() => {
   switch (dataStore.type){
@@ -25,13 +28,12 @@ async function addingOperation(){
   }
 
   const id = new Date().toISOString().split('.')[0] + '-' + Math.round(Math.random() * (1000 - 9999) + 9999);
-  const date = new Date().toISOString().split('T')[0];
 
   const requestBody = {
     'id': id,
     'category': category.value,
     'description': description.value,
-    'date': date,
+    'date': date.value,
     'amount': amount.value
   }
 
@@ -66,6 +68,9 @@ function close() {
 <template>
   <dialog class="popup" id="adding-operation-popup" @click="handleModalClick">
     <div class="popup-content">
+      <h2 class="popup-title">
+        Добавление операции
+      </h2>
       <nav class="popup-menu">
         <ul class="popup-menu-list">
           <li :class="['popup-menu-item', {active: dataStore.type === 'expenses'}]">
@@ -76,13 +81,11 @@ function close() {
           </li>
         </ul>
       </nav>
-      <h2 class="popup-title">
-        Добавление операции
-      </h2>
       <form class="popup-form">
-        <input class="popup-input" v-model="category" placeholder="Категория" />
         <input class="popup-input" type="number" v-model="amount" placeholder="Сумма" />
-        <input class="popup-input" v-model="description" placeholder="Описание" />
+        <input class="popup-input" v-model="category" placeholder="Категория" />
+        <input class="popup-input" type="date" v-model="date">
+        <textarea class="popup-textarea" v-model="description" placeholder="Описание" rows="4"/>
       </form>
       <div class="buttons-container">
         <button class="popup-closing-button" @click="close">Отмена</button>
@@ -111,6 +114,10 @@ function close() {
   padding: 32px;
   width: 100%;
   height: 100%;
+}
+
+.popup-menu {
+  margin-top: 5px;
 }
 
 .popup-menu-list {
@@ -146,11 +153,11 @@ a {
   cursor: pointer;
 }
 
-.popup-title {
+.popup-form {
   margin-top: 20px;
 }
 
-.popup-form {
+.popup-form > *:not(:first-child) {
   margin-top: 20px;
 }
 
@@ -161,8 +168,11 @@ a {
   padding: 4px;
 }
 
-.popup-input:not(:first-child) {
-  margin-top: 20px;
+.popup-textarea {
+  width: 100%;
+  resize: none;
+  font-size: 16px;
+  padding: 4px;
 }
 
 .buttons-container {

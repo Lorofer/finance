@@ -6,9 +6,6 @@ import { useDateStore } from "@/stores/dateStore.js";
 const transactionDataStore = useTransactionDataStore();
 const dateStore = useDateStore();
 
-const isOpen = ref(false);
-defineExpose({ open });
-
 let title = ref('');
 let operations = computed(() => {
   switch (transactionDataStore.type){
@@ -31,6 +28,7 @@ function open(category){
   document.getElementById('category-popup').showModal();
   title.value = category;
 }
+defineExpose({ open });
 function handleModalClick({ currentTarget, target }) {
   const isClickedOnBackdrop = target === currentTarget;
 
@@ -40,6 +38,10 @@ function handleModalClick({ currentTarget, target }) {
 }
 function close(){
   document.getElementById('category-popup').close();
+}
+
+function foo(obj){
+  alert(obj.description);
 }
 </script>
 
@@ -65,7 +67,10 @@ function close(){
     </h2>
 
     <ul class="popup-list">
-      <li class="popup-list-item" v-for="operation in operations">
+      <li class="popup-list-item"
+          v-for="operation in operations"
+          @click="foo(operation)"
+      >
         <p class="popup-list-item-data">{{dateStore.dateConversion(operation.date)}}</p>
         <p class="popup-list-item-amount">{{operation.amount}}</p>
         <p class="popup-list-item-description">{{operation.description}}</p>

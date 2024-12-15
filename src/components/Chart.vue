@@ -37,5 +37,6 @@ const options = {
 <style scoped>
 .chart-container{
   width: 50%;
+  height: 100%;
 }
 </style>
